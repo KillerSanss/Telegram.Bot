@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Domain.Validations;
 using Domain.Validations.Validators;
 
 namespace Domain.Entities.ValueObjects;
@@ -31,23 +32,11 @@ public class FullName : BaseValueObject
     /// <param name="middleName">Отчество.</param>
     public FullName(string firstName, string lastName, string? middleName)
     {
-        FirstName = ValidateName(firstName, nameof(firstName));
-        LastName = ValidateName(lastName, nameof(lastName));
+        FirstName = new FullNameValidator(nameof(firstName)).ValidateWithErrors(firstName);
+        LastName = new FullNameValidator(nameof(lastName)).ValidateWithErrors(lastName);
         if (middleName is not null)
         {
-            MiddleName = ValidateName(middleName, nameof(middleName));
+            MiddleName = new FullNameValidator(nameof(middleName)).ValidateWithErrors(middleName);
         }
-    }
-    
-    private static string ValidateName(string value, string paramName)
-    {
-        var fullNameValidator = new FullNameValidator(paramName);
-        var fullNameValidationResult = fullNameValidator.Validate(value);
-        if (!fullNameValidationResult.IsValid)
-        {
-            throw new ValidationException(fullNameValidationResult.Errors.ToString());
-        }
-        return value;
-        
     }
 }

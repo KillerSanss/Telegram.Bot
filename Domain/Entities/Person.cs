@@ -1,7 +1,9 @@
+using Ardalis.GuardClauses;
 using Domain.Entities.ValueObjects;
-using Domain.Validations.Primitives;
+using Domain.Primitives.Enums;
 using Domain.Validations.Validators;
 using FluentValidation;
+using Domain.Validations;
 
 namespace Domain.Entities;
 
@@ -50,59 +52,11 @@ public class Person : BaseEntity
     /// <param name="telegram">Никнейм в телеграм.</param>
     public Person(FullName fullName, Gender gender, DateTime birthDate, string phoneNumber, string telegram)
     {
-        FullName = fullName;
-        Gender = ValidateGender(gender, nameof(gender), [Gender.None]);
-        BirthDate = BirthDateValidation(birthDate, nameof(birthDate));
-        PhoneNumber = PhoneValidation(phoneNumber, nameof(phoneNumber));
-        Telegram = TelegramValidation(telegram, nameof(telegram));
-    }
-    
-    private string PhoneValidation(string phoneNumber, string paramName)
-    {
-        var phoneValidator = new PhoneValidator(paramName);
-        var phoneValidationResult = phoneValidator.Validate(phoneNumber);
-        if (!phoneValidationResult.IsValid)
-        {
-            throw new ValidationException(phoneValidationResult.Errors);
-        }
-            
-        return phoneNumber;
-    }
-
-    private string TelegramValidation(string telegram, string paramName)
-    {
-        var telegramValidator = new TelegramValidator(paramName);
-        var telegramValidationResult = telegramValidator.Validate(telegram);
-        if (!telegramValidationResult.IsValid)
-        {
-            throw new ValidationException(telegramValidationResult.Errors);
-        }
-            
-        return telegram;
-    }
-
-    private DateTime BirthDateValidation(DateTime birthDate, string paramName)
-    {
-        var birthDateValidator = new BirthDateValidator(paramName);
-        var birthDateValidationResult = birthDateValidator.Validate(birthDate);
-        if (!birthDateValidationResult.IsValid)
-        {
-            throw new ValidationException(birthDateValidationResult.Errors);
-        }
-            
-        return birthDate;
-    }
-
-    private Gender ValidateGender(Gender gender, string paramName, Gender[] defaultValues)
-    {
-        var enumValidator = new EnumValidator<Gender>(paramName, defaultValues);
-        var enumValidationResult = enumValidator.Validate(gender);
-        if (!enumValidationResult.IsValid)
-        {
-            throw new ValidationException(enumValidationResult.Errors);
-        }
-            
-        return gender;
+        FullName = Guard.Against.Null(fullName);
+        Gender = new EnumValidator<Gender>(nameof(gender)).ValidateWithErrors(gender);
+        BirthDate = new BirthDateValidator(nameof(birthDate)).ValidateWithErrors(birthDate);
+        PhoneNumber = new PhoneValidator(nameof(phoneNumber)).ValidateWithErrors(phoneNumber);
+        Telegram = new TelegramValidator(nameof(telegram)).ValidateWithErrors(telegram);
     }
     
     // Проверить на допустимы только буквы русского или англ алф.
