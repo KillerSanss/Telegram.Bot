@@ -1,8 +1,10 @@
-using Domain.Primitives;
 using FluentValidation;
 
 namespace Domain.Validations.Validators;
 
+/// <summary>
+/// Валидация никнейма в телеграмм
+/// </summary>
 public class TelegramValidator : AbstractValidator<string>
 {
     public TelegramValidator(string paramName)

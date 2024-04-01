@@ -1,5 +1,8 @@
 namespace Domain.Primitives.Enums;
 
+/// <summary>
+/// Перечисление для гердера
+/// </summary>
 public enum Gender
 {
     None = 0,

@@ -1,8 +1,10 @@
-using Domain.Primitives;
 using FluentValidation;
 
 namespace Domain.Validations.Validators;
 
+/// <summary>
+/// Валидация номера телефона
+/// </summary>
 public class PhoneValidator : AbstractValidator<string>
 {
     public PhoneValidator(string paramName)

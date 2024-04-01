@@ -1,8 +1,10 @@
-using Domain.Primitives;
 using FluentValidation;
 
 namespace Domain.Validations.Validators;
 
+/// <summary>
+/// Валидация дня рождения
+/// </summary>
 public class BirthDateValidator : AbstractValidator<DateTime>
 {
     public BirthDateValidator(string paramName)

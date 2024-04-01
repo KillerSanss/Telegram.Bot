@@ -53,7 +53,7 @@ public class Person : BaseEntity
     public Person(FullName fullName, Gender gender, DateTime birthDate, string phoneNumber, string telegram)
     {
         FullName = Guard.Against.Null(fullName);
-        Gender = new EnumValidator<Gender>(nameof(gender)).ValidateWithErrors(gender);
+        Gender = new EnumValidator<Gender>(nameof(gender), [Gender.None]).ValidateWithErrors(gender);
         BirthDate = new BirthDateValidator(nameof(birthDate)).ValidateWithErrors(birthDate);
         PhoneNumber = new PhoneValidator(nameof(phoneNumber)).ValidateWithErrors(phoneNumber);
         Telegram = new TelegramValidator(nameof(telegram)).ValidateWithErrors(telegram);
