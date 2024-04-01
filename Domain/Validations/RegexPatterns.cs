@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Domain.Validations.Primitives;
+namespace Domain.Validations;
 
 /// <summary>
 /// Класс для описания регулярных выражений
