@@ -2,6 +2,9 @@ using FluentValidation;
 
 namespace Domain.Validations;
 
+/// <summary>
+/// Класс расширение
+/// </summary>
 public static class ValidateExtensions
 {
     public static T ValidateWithErrors<T> (this IValidator<T> validator, T value)

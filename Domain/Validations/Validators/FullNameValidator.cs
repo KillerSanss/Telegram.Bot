@@ -3,7 +3,7 @@ using FluentValidation;
 namespace Domain.Validations.Validators;
 
 /// <summary>
-/// Валидация Person
+/// Валидация Имени
 /// </summary>
 public class FullNameValidator : AbstractValidator<string>
 {
