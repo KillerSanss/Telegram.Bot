@@ -10,7 +10,7 @@ public static class RegexPatterns
     /// <summary>
     /// Номер телефона
     /// </summary>
-    public static readonly Regex PhonePattern = new(@"\+373[4,9]\d{5}$");
+    public static readonly Regex PhonePattern = new(@"^373\d{8}$");
 
     /// <summary>
     /// Никнейм телеграма

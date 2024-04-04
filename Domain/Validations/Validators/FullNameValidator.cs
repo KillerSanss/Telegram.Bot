@@ -14,5 +14,4 @@ public class FullNameValidator : AbstractValidator<string>
             .NotEmpty().WithMessage(string.Format(ErrorMessages.EmptyError, paramName))
             .Matches(RegexPatterns.LettersPattern).WithMessage(string.Format(ErrorMessages.OnlyLetters, paramName));
     }
-    
 }
