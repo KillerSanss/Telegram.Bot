@@ -2,7 +2,6 @@ using Ardalis.GuardClauses;
 using Domain.Entities.ValueObjects;
 using Domain.Primitives.Enums;
 using Domain.Validations.Validators;
-using FluentValidation;
 using Domain.Validations;
 
 namespace Domain.Entities;
@@ -41,17 +40,24 @@ public class Person : BaseEntity
     /// Никнейм в телеграм
     /// </summary>
     public string Telegram { get; set; }
+    
+    /// <summary>
+    /// Кастомные поля
+    /// </summary>
+    public List<CustomField<string>> CustomFields { get; set; }
 
     /// <summary>
     /// Конструктор
     /// </summary>
+    /// <param name="id">Идентификатор.</param>
     /// <param name="fullName">Имя.</param>
     /// <param name="gender">Гендер.</param>
     /// <param name="birthDate">Дата рождения.</param>
     /// <param name="phoneNumber">Номер телефона.</param>
     /// <param name="telegram">Никнейм в телеграм.</param>
-    public Person(FullName fullName, Gender gender, DateTime birthDate, string phoneNumber, string telegram)
+    public Person(Guid id, FullName fullName, Gender gender, DateTime birthDate, string phoneNumber, string telegram)
     {
+        SetId(id);
         FullName = Guard.Against.Null(fullName);
         Gender = new EnumValidator<Gender>(nameof(gender), [Gender.None]).ValidateWithErrors(gender);
         BirthDate = new BirthDateValidator(nameof(birthDate)).ValidateWithErrors(birthDate);

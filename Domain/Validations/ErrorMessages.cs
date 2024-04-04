@@ -68,5 +68,16 @@ public abstract class ErrorMessages
     /// {0} - имя Перечисления
     /// </remarks>
     public const string DefaultEnum = "Enum {0} cannot be default";
+    
+    /// <summary>
+    /// Сообщение об ошибке не найденной сущности
+    /// </summary>
+    /// <remarks>
+    /// Использовать вместе со string.Format
+    /// {0} - имя сущности
+    /// {1} - имя свойства
+    /// {2} - значение свойства
+    /// </remarks>
+    public const string NotFoundError = "Entity {0} with {1} = {2} not found.";
 
 }

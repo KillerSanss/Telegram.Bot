@@ -1,3 +1,5 @@
+using Ardalis.GuardClauses;
+
 namespace Domain.Entities;
 
 /// <summary>
@@ -8,8 +10,13 @@ public abstract class BaseEntity
     /// <summary>
     /// Идентификатор
     /// </summary>
-    public Guid Id { get; set; }
-
+    public Guid Id { get; private set; }
+    
+    protected void SetId(Guid id)
+    {
+        Id = Guard.Against.NullOrEmpty(id);
+    }
+    
     /// <summary>
     /// Переопределие метода Equals
     /// </summary>
