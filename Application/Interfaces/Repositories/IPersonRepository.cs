@@ -10,7 +10,6 @@ public interface IPersonRepository : IBaseRepository<Person>
     /// <summary>
     /// Получение кастомных полей
     /// </summary>
-    /// <param name="cancellationToken">Токен отмены.</param>
     /// <returns>Список кастомных полей.</returns>
-    public List<CustomField<string>> GetCustomFields(CancellationToken cancellationToken);
+    public List<CustomField<string>> GetCustomFields();
 }

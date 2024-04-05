@@ -3,7 +3,7 @@ using Domain.Validations;
 namespace Application.Exceptions.Base;
 
 /// <summary>
-/// 
+/// Базовое исключение о ненайденной сущнсоти.
 /// </summary>
 public abstract class BaseNotFoundException : Exception
 {

@@ -4,9 +4,9 @@ using Domain.Entities;
 namespace Application.Exceptions;
 
 /// <summary>
-/// 
+/// Исключение о ненайденной сущности
 /// </summary>
-/// <typeparam name="T"></typeparam>
+/// <typeparam name="T">Сущность.</typeparam>
 public class EntityNotFoundException<T> : BaseNotFoundException where T : BaseEntity
 {
     /// <summary>
