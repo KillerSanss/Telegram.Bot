@@ -13,36 +13,16 @@ public class PersonMappingProfile : Profile
     public PersonMappingProfile()
     {
         CreateMap<Person, PersonGetByIdResponse>()
-            .ForMember(dest => dest.FirstName,
-                opt => opt.MapFrom(s => s.FullName.FirstName))
-            .ForMember(dest => dest.LastName,
-                opt => opt.MapFrom(s => s.FullName.LastName))
-            .ForMember(dest => dest.MiddleName,
-                opt => opt.MapFrom(s => s.FullName.MiddleName));
+            .ForAllMembers(opt => opt.MapFrom(s => s.FullName));
         
         CreateMap<Person, PersonGetAllResponse>()
-            .ForMember(dest => dest.FirstName,
-                opt => opt.MapFrom(s => s.FullName.FirstName))
-            .ForMember(dest => dest.LastName,
-                opt => opt.MapFrom(s => s.FullName.LastName))
-            .ForMember(dest => dest.MiddleName,
-                opt => opt.MapFrom(s => s.FullName.MiddleName));
+            .ForAllMembers(opt => opt.MapFrom(s => s.FullName));
             
         CreateMap<Person, PersonCreateResponse>()
-            .ForMember(dest => dest.FirstName,
-                opt => opt.MapFrom(s => s.FullName.FirstName))
-            .ForMember(dest => dest.LastName,
-                opt => opt.MapFrom(s => s.FullName.LastName))
-            .ForMember(dest => dest.MiddleName,
-                opt => opt.MapFrom(s => s.FullName.MiddleName));
+            .ForAllMembers(opt => opt.MapFrom(s => s.FullName));
         
         CreateMap<Person, PersonUpdateResponse>()
-            .ForMember(dest => dest.FirstName,
-                opt => opt.MapFrom(s => s.FullName.FirstName))
-            .ForMember(dest => dest.LastName,
-                opt => opt.MapFrom(s => s.FullName.LastName))
-            .ForMember(dest => dest.MiddleName,
-                opt => opt.MapFrom(s => s.FullName.MiddleName));
+            .ForAllMembers(opt => opt.MapFrom(s => s.FullName));
         
         CreateMap<PersonCreateRequest, Person>()
             .ConstructUsing(dto => new Person(
