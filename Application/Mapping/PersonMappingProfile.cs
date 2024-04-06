@@ -13,21 +13,25 @@ public class PersonMappingProfile : Profile
     public PersonMappingProfile()
     {
         CreateMap<Person, PersonGetByIdResponse>()
-            .ForAllMembers(opt => opt.MapFrom(s => s.FullName));
+            .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src => src.FullName));
         
         CreateMap<Person, PersonGetAllResponse>()
-            .ForAllMembers(opt => opt.MapFrom(s => s.FullName));
+            .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src => src.FullName));
             
         CreateMap<Person, PersonCreateResponse>()
-            .ForAllMembers(opt => opt.MapFrom(s => s.FullName));
+            .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src => src.FullName));
         
         CreateMap<Person, PersonUpdateResponse>()
-            .ForAllMembers(opt => opt.MapFrom(s => s.FullName));
+            .ForMember(dest => dest.FullName,
+                opt => opt.MapFrom(src => src.FullName));
         
         CreateMap<PersonCreateRequest, Person>()
             .ConstructUsing(dto => new Person(
                 Guid.NewGuid(),
-                new FullName(dto.FirstName, dto.LastName, dto.MiddleName),
+                new FullName(dto.FullName.FirstName, dto.FullName.LastName, dto.FullName.MiddleName),
                 dto.Gender,
                 dto.BirthDate,
                 dto.PhoneNumber,
@@ -36,7 +40,7 @@ public class PersonMappingProfile : Profile
         CreateMap<PersonUpdateRequest, Person>()
             .ConstructUsing(dto => new Person(
                 dto.Id,
-                new FullName(dto.FirstName, dto.LastName, dto.MiddleName),
+                new FullName(dto.FullName.FirstName, dto.FullName.LastName, dto.FullName.MiddleName),
                 dto.Gender,
                 dto.BirthDate,
                 dto.PhoneNumber,

@@ -8,19 +8,9 @@ namespace Application.Dtos.Person;
 public class BasePersonDto
 {
     /// <summary>
-    /// Имя
+    /// Полное имя
     /// </summary>
-    public string FirstName { get; init; }
-    
-    /// <summary>
-    /// Фамилия
-    /// </summary>
-    public string LastName { get; init; }
-
-    /// <summary>
-    /// Отчество
-    /// </summary>
-    public string? MiddleName { get; init; }
+    public FullNameDto FullName { get; set; }
     
     /// <summary>
     /// Гендер

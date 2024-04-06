@@ -70,9 +70,9 @@ public class PersonService
         var person = GetByIdOrThrow(personUpdateRequest.Id);
         
         person.FullName = new FullName(
-            personUpdateRequest.FirstName,
-            personUpdateRequest.LastName,
-            personUpdateRequest.MiddleName);
+            personUpdateRequest.FullName.FirstName,
+            personUpdateRequest.FullName.LastName,
+            personUpdateRequest.FullName.MiddleName);
         person.Gender = personUpdateRequest.Gender;
         person.BirthDate = personUpdateRequest.BirthDate;
         person.PhoneNumber = personUpdateRequest.PhoneNumber;
