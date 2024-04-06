@@ -10,7 +10,7 @@ public class BasePersonDto
     /// <summary>
     /// Полное имя
     /// </summary>
-    public FullNameDto FullName { get; set; }
+    public FullNameDto FullName { get; init; }
     
     /// <summary>
     /// Гендер
