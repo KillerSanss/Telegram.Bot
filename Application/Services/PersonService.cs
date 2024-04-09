@@ -48,7 +48,7 @@ public class PersonService
     /// </summary>
     /// <param name="personCreateRequest">Person на создание.</param>
     /// <returns>Созданный Person.</returns>
-    public PersonCreateResponse CreateAsync(PersonCreateRequest personCreateRequest)
+    public PersonCreateResponse Create(PersonCreateRequest personCreateRequest)
     {
         Guard.Against.Null(personCreateRequest);
 
