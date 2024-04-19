@@ -39,4 +39,31 @@ public class FullName : BaseValueObject
             MiddleName = new FullNameValidator(nameof(middleName)).ValidateWithErrors(middleName);
         }
     }
+
+    /// <summary>
+    /// Обновление FullName
+    /// </summary>
+    /// <param name="firstName">Имя.</param>
+    /// <param name="lastName">Фамилия.</param>
+    /// <param name="middleName">Отчество.</param>
+    /// <returns>Полное имя.</returns>
+    public FullName Update(string firstName, string lastName, string middleName)
+    {
+        if (firstName is not null)
+        {
+            FirstName = new FullNameValidator(nameof(firstName)).ValidateWithErrors(firstName);
+        }
+
+        if (lastName is not null)
+        {
+            LastName = new FullNameValidator(nameof(lastName)).ValidateWithErrors(lastName);
+        }
+
+        if (middleName is not null)
+        {
+            MiddleName = new FullNameValidator(nameof(middleName)).ValidateWithErrors(middleName);
+        }
+
+        return this;
+    }
 }

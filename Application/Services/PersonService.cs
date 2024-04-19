@@ -4,7 +4,6 @@ using Application.Interfaces.Repositories;
 using Ardalis.GuardClauses;
 using AutoMapper;
 using Domain.Entities;
-using Domain.Entities.ValueObjects;
 
 namespace Application.Services;
 
@@ -68,15 +67,15 @@ public class PersonService
         Guard.Against.Null(personUpdateRequest);
 
         var person = GetByIdOrThrow(personUpdateRequest.Id);
-        
-        person.FullName = new FullName(
+
+        person.Update(
             personUpdateRequest.FullName.FirstName,
             personUpdateRequest.FullName.LastName,
-            personUpdateRequest.FullName.MiddleName);
-        person.Gender = personUpdateRequest.Gender;
-        person.BirthDate = personUpdateRequest.BirthDate;
-        person.PhoneNumber = personUpdateRequest.PhoneNumber;
-        person.Telegram = personUpdateRequest.Telegram;
+            personUpdateRequest.FullName.MiddleName,
+            personUpdateRequest.PhoneNumber,
+            personUpdateRequest.Gender,
+            personUpdateRequest.BirthDate,
+            personUpdateRequest.Telegram);
         
         _personRepository.Update(person);
         

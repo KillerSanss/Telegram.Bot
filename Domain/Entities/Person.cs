@@ -55,7 +55,13 @@ public class Person : BaseEntity
     /// <param name="birthDate">Дата рождения.</param>
     /// <param name="phoneNumber">Номер телефона.</param>
     /// <param name="telegram">Никнейм в телеграм.</param>
-    public Person(Guid id, FullName fullName, Gender gender, DateTime birthDate, string phoneNumber, string telegram)
+    public Person(
+        Guid id,
+        FullName fullName,
+        Gender gender,
+        DateTime birthDate,
+        string phoneNumber,
+        string telegram)
     {
         SetId(id);
         FullName = Guard.Against.Null(fullName);
@@ -64,8 +70,33 @@ public class Person : BaseEntity
         PhoneNumber = new PhoneValidator(nameof(phoneNumber)).ValidateWithErrors(phoneNumber);
         Telegram = new TelegramValidator(nameof(telegram)).ValidateWithErrors(telegram);
     }
-    
-    // Проверить на допустимы только буквы русского или англ алф.
-    // Телеграм начианется с @
-    // Телефон +373 далее 3 цифры от 4 до 9 и далее 5 цифр - regex
+
+    /// <summary>
+    /// Обновление Person.
+    /// </summary>
+    /// <param name="firstName">Имя.</param>
+    /// <param name="lastName">Фамилия.</param>
+    /// <param name="middleName">Отчество.</param>
+    /// <param name="phoneNumber">Телефон.</param>
+    /// <param name="gender">Гендер.</param>
+    /// <param name="birthDate">Дата рождения.</param>
+    /// <param name="telegram">Ник в телеграм.</param>
+    /// <returns>Person.</returns>
+    public Person Update(
+        string firstName,
+        string lastName,
+        string middleName,
+        string phoneNumber,
+        Gender gender,
+        DateTime birthDate,
+        string telegram)
+    {
+        FullName.Update(firstName, lastName, middleName);
+        PhoneNumber = new PhoneValidator(nameof(phoneNumber)).ValidateWithErrors(phoneNumber);
+        Gender = new EnumValidator<Gender>(nameof(gender), [Gender.None]).ValidateWithErrors(gender);
+        BirthDate = new BirthDateValidator(nameof(birthDate)).ValidateWithErrors(birthDate);
+        Telegram = new TelegramValidator(nameof(telegram)).ValidateWithErrors(telegram);
+        
+        return this;
+    }
 }

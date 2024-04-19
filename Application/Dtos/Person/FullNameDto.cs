@@ -1,3 +1,4 @@
+#nullable enable
 namespace Application.Dtos.Person;
 
 /// <summary>
@@ -8,15 +9,15 @@ public abstract class FullNameDto
     /// <summary>
     /// Имя
     /// </summary>
-    public string FirstName { get; init; }
+    public string? FirstName { get; init; }
     
     /// <summary>
     /// Фамилия
     /// </summary>
-    public string LastName { get; init; }
+    public string? LastName { get; init; }
     
     /// <summary>
     /// Отчество
     /// </summary>
-    public string MiddleName { get; init; }
+    public string? MiddleName { get; init; }
 }
