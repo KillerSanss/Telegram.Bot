@@ -14,4 +14,8 @@ public class CustomField<TType> : BaseEntity
     /// Значение
     /// </summary>
     public TType Value { get; set; }
+
+    private CustomField()
+    {
+    }
 }

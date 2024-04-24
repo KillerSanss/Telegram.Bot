@@ -99,4 +99,8 @@ public class Person : BaseEntity
         
         return this;
     }
+
+    private Person()
+    {
+    }
 }

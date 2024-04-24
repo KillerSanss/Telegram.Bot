@@ -66,4 +66,8 @@ public class FullName : BaseValueObject
 
         return this;
     }
+
+    private FullName()
+    {
+    }
 }
