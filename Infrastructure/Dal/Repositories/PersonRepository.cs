@@ -64,7 +64,7 @@ public class PersonRepository : IPersonRepository
         _dbContext.Persons.Remove(entity);
     }
     
-    /// <summary>а
+    /// <summary>
     /// Получение всех кастомных полей персоны
     /// </summary>
     /// <returns>Список кастомных полей.</returns>
