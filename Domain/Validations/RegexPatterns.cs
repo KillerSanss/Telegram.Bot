@@ -15,7 +15,7 @@ public static class RegexPatterns
     /// <summary>
     /// Никнейм телеграма
     /// </summary>
-    public static readonly Regex TelegramPattern = new("^@[A-Za-z0-9_]$");
+    public static readonly Regex TelegramPattern = new("^@[A-Za-z0-9_]");
 
     /// <summary>
     /// Строка (только буквы)

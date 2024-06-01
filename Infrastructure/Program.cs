@@ -1,9 +1,27 @@
+using Application.Interfaces.Repositories;
+using Application.Mapping;
+using Application.Services;
+using Infrastructure.Dal.EntityFramework;
+using Infrastructure.Dal.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers();
+builder.Services.AddScoped<IPersonRepository, PersonRepository>();
+
+
+
+var connectionString = builder.Configuration.GetConnectionString("TelegramBotDatabase");
+Console.WriteLine(connectionString);
+builder.Services.AddDbContext<TelegramBotDbContext>(o => o.UseNpgsql(connectionString));
+builder.Services.AddAutoMapper(typeof(PersonMappingProfile));
+builder.Services.AddScoped<PersonService>();
 
 var app = builder.Build();
 
@@ -14,7 +32,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRouting();
 app.UseHttpsRedirection();
+app.MapControllers();
 
 var summaries = new[]
 {

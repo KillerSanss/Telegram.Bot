@@ -33,7 +33,7 @@ namespace Infrastructure.Migrations
                     last_name = table.Column<string>(type: "text", nullable: true),
                     middle_name = table.Column<string>(type: "text", nullable: true),
                     gender = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
-                    birth_date = table.Column<DateTime>(type: "timestamp", nullable: false),
+                    birth_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     phone_number = table.Column<string>(type: "text", nullable: false),
                     telegram = table.Column<string>(type: "text", nullable: false)
                 },

@@ -4,7 +4,7 @@ namespace Application.Dtos.Person;
 /// <summary>
 /// Полное имя для дто
 /// </summary>
-public abstract class FullNameDto
+public class FullNameDto
 {
     /// <summary>
     /// Имя

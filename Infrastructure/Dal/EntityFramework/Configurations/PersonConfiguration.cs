@@ -42,7 +42,7 @@ public class PersonConfiguration : IEntityTypeConfiguration<Person>
         builder.Property(p => p.BirthDate)
             .IsRequired()
             .HasColumnName("birth_date")
-            .HasColumnType("timestamp");
+            .HasColumnType("timestamp with time zone");
 
         builder.Property(p => p.PhoneNumber)
             .IsRequired()

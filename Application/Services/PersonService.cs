@@ -15,7 +15,7 @@ public class PersonService
     private readonly IPersonRepository _personRepository;
     private readonly IMapper _mapper;
 
-    PersonService(IPersonRepository personRepository, IMapper mapper)
+    public PersonService(IPersonRepository personRepository, IMapper mapper)
     {
         _personRepository = personRepository;
         _mapper = mapper;
@@ -47,16 +47,15 @@ public class PersonService
     /// </summary>
     /// <param name="personCreateRequest">Person на создание.</param>
     /// <returns>Созданный Person.</returns>
-    public PersonCreateResponse Create(PersonCreateRequest personCreateRequest)
+    public async Task<PersonCreateResponse> Create(PersonCreateRequest personCreateRequest)
     {
         Guard.Against.Null(personCreateRequest);
-
         var person = _mapper.Map<Person>(personCreateRequest);
-         _personRepository.Create(person);
-
-        return _mapper.Map<PersonCreateResponse>(person);
+        var createdPerson = _personRepository.Create(person);
+        await _personRepository.SaveChanges();
+        return _mapper.Map<PersonCreateResponse>(createdPerson);
     }
-
+    
     /// <summary>
     /// Обновление Person
     /// </summary>
@@ -78,6 +77,7 @@ public class PersonService
             personUpdateRequest.Telegram);
         
         _personRepository.Update(person);
+        _personRepository.SaveChanges();
         
         return _mapper.Map<PersonUpdateResponse>(person);
     }
@@ -89,7 +89,8 @@ public class PersonService
     public void Delete(Guid id)
     {
         var person = GetByIdOrThrow(id);
-        _personRepository.Delete(person);
+        _personRepository.Delete(person); 
+        _personRepository.SaveChanges();
     }
 
     /// <summary>

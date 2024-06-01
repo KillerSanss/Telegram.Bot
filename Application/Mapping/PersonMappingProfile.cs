@@ -45,5 +45,9 @@ public class PersonMappingProfile : Profile
                 dto.BirthDate,
                 dto.PhoneNumber,
                 dto.Telegram));
+
+        CreateMap<FullName, FullNameDto>();
+        
+        CreateMap<FullNameDto, FullName>();
     }
 }

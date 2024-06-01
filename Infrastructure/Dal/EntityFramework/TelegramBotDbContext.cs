@@ -12,6 +12,10 @@ public class TelegramBotDbContext : DbContext
     public DbSet<Person> Persons { get; init; }
     public DbSet<CustomField<string>> CustomFields { get; init; }
 
+    public TelegramBotDbContext(DbContextOptions<TelegramBotDbContext> options) : base(options)
+    {
+    }
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);

@@ -41,4 +41,9 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     /// <param name="entity">Сущность на удаление.</param>
     /// <returns>Результат удаления.</returns>
     public void Delete(TEntity entity);
+    
+    /// <summary>
+    /// Сохранение в базе
+    /// </summary>
+    public Task SaveChanges();
 }

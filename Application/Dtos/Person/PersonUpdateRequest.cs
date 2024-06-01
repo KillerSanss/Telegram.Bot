@@ -3,7 +3,7 @@ namespace Application.Dtos.Person;
 /// <summary>
 /// Дто для обновления Person
 /// </summary>
-public abstract class PersonUpdateRequest : BasePersonDto
+public class PersonUpdateRequest : BasePersonDto
 {
     /// <summary>
     /// Идентификатор
