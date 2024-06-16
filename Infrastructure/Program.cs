@@ -4,6 +4,7 @@ using Application.Services;
 using Infrastructure.Dal.EntityFramework;
 using Infrastructure.Dal.Repositories;
 using Infrastructure.Jobs;
+using Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
@@ -23,22 +24,23 @@ builder.Services.AddDbContext<TelegramBotDbContext>(o => o.UseNpgsql(connectionS
 builder.Services.AddAutoMapper(typeof(PersonMappingProfile));
 builder.Services.AddScoped<PersonService>();
 
+builder.Services.Configure<CronSettings>(builder.Configuration.GetSection(nameof(CronSettings)));
+builder.Services.Configure<TelegramBotSettings>(builder.Configuration.GetSection(nameof(TelegramBotSettings)));
+
 builder.Services.AddQuartz(q =>
 {
-    q.UseMicrosoftDependencyInjectionJobFactory();
+    var cronExpression = builder.Configuration.GetSection("CronExpressions").Get<CronSettings>();
     
-    q.AddJob<BirthDayJob>(opts => opts.WithIdentity("BirthDayJob"));
+    q.AddJob<BirthDayJob>(opts => opts.WithIdentity(nameof(BirthDayJob)));
     q.AddTrigger(opts => opts
         .ForJob("BirthDayJob")
-        .WithIdentity("BirthDayJobTrigger")
-        .WithCronSchedule("0/5 * * * * ?"));
+        .WithCronSchedule(cronExpression.BirthDayJob));
 });
 
 builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

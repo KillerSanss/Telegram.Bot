@@ -1,6 +1,11 @@
+using Domain.Primitives;
 using Infrastructure.Dal.EntityFramework;
+using Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Quartz;
+using Telegram.Bot;
+using Telegram.Bot.Types;
 
 namespace Infrastructure.Jobs;
 
@@ -9,30 +14,43 @@ namespace Infrastructure.Jobs;
 /// </summary>
 public class BirthDayJob : IJob
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly TelegramBotDbContext _telegramBotDbContext;
+    private readonly TelegramBotClient _telegramBotClient;
+    private readonly TelegramBotSettings _telegramBotSettings;
     private readonly ILogger<BirthDayJob> _logger;
-    
-    public BirthDayJob(IServiceProvider serviceProvider, ILogger<BirthDayJob> logger)
+        
+    public BirthDayJob(
+        TelegramBotDbContext telegramBotDbContext,
+        IOptions<TelegramBotSettings> telegramBotSettings,
+        ILogger<BirthDayJob> logger)
     {
-        _serviceProvider = serviceProvider;
+        _telegramBotDbContext = telegramBotDbContext;
         _logger = logger;
+        _telegramBotSettings = telegramBotSettings.Value;
+        _telegramBotClient = new TelegramBotClient(_telegramBotSettings.BotToken);
     }
-    
+        
     public async Task Execute(IJobExecutionContext context)
     {
-        using var scope = _serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<TelegramBotDbContext>();
-
-        var todayMonth = DateTime.Today.Month;
-        var todayDay = DateTime.Today.Day;
-        var persons = await dbContext.Persons
-            .Where(p => p.BirthDate.Month == todayMonth
-                        && p.BirthDate.Day == todayDay)
-            .ToListAsync();
-
-        foreach (var person in persons)
+        try
         {
-            _logger.LogInformation($"Сегодня день рождения у {person.FullName.FirstName} {person.FullName.LastName} {person.FullName.MiddleName} ({person.BirthDate:dd/MM/yyyy})");
+            var persons = await _telegramBotDbContext.Persons
+                .Where(p => p.BirthDate.Month == DateTime.Today.Month && p.BirthDate.Day == DateTime.Today.Day)
+                .ToListAsync();
+
+            foreach (var person in persons)
+            {
+                var message = string.Format(Messages.BirthDayMessage,
+                    $"{person.FullName.FirstName} {person.FullName.LastName}", $"{person.BirthDate:dd/MM}");
+                _logger.LogInformation(message);
+                await _telegramBotClient.SendTextMessageAsync(_telegramBotSettings.ChatId, message);
+                var stickerId = "CAACAgIAAxkBAAEGJq1mbG3I28USRfEvbJWpqWIkCvOzTAACyRgAAt1iOUlm4vcITBKrajUE";
+                await _telegramBotClient.SendStickerAsync(_telegramBotSettings.ChatId, new InputFileId(stickerId));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Произошла ошибка при выполнении задачи BirthDayJob");
         }
     }
 }
